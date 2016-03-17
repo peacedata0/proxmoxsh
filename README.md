@@ -13,7 +13,7 @@ Currently supported commands:
 * search &lt;request&gt; — find VM by name or ID
 * start &lt;VM ID&gt; — start virtual machine
 * stop &lt;VM ID&gt; — stop (force turn off) virtual machine
-* shutdown vVM ID&gt; — shutdown (gently turn off) virtual machine
+* shutdown &lt;VM ID&gt; — shutdown (gently turn off) virtual machine
 * reset &lt;VM ID&gt; — forse reset virtual machine
 * suspend &lt;VM ID&gt; — suspend virtual machine
 * resume &lt;VM ID&gt; — resume virtual machine from suspend
