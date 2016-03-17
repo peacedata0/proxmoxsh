@@ -19,4 +19,4 @@ Currently supported commands:
 * resume <VM ID> — resume virtual machine from suspend
 * migrate <VM ID> <Destination node> <parameters> — migrate VM to another node
 * parameters:
-** -online — online migration of running machine
+- -online — online migration of running machine
