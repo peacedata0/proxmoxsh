@@ -10,13 +10,13 @@ GPLv2 or later
 
 ## Howto
 Currently supported commands:
-* search <request> — find VM by name or ID
-* start <VM ID> — start virtual machine
-* stop <VM ID> — stop (force turn off) virtual machine
-* shutdown <VM ID> — shutdown (gently turn off) virtual machine
-* reset <VM ID> — forse reset virtual machine
-* suspend <VM ID> — suspend virtual machine
-* resume <VM ID> — resume virtual machine from suspend
-* migrate <VM ID> <Destination node> <parameters> — migrate VM to another node
+* search &lt;request&gt; — find VM by name or ID
+* start &lt;VM ID&gt; — start virtual machine
+* stop &lt;VM ID&gt; — stop (force turn off) virtual machine
+* shutdown vVM ID&gt; — shutdown (gently turn off) virtual machine
+* reset &lt;VM ID&gt; — forse reset virtual machine
+* suspend &lt;VM ID&gt; — suspend virtual machine
+* resume &lt;VM ID&gt; — resume virtual machine from suspend
+* migrate &lt;VM ID&gt; <Destination node> <parameters> — migrate VM to another node
  *  parameters:
  * -online — online migration of running machine
