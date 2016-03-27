@@ -64,6 +64,14 @@ class Pveconn(object):
     def migrate(self, vmid, new_node, online=False):
         """Migrate VM to another node"""
         return self.conn.migrateVirtualMachine(self.get_node_of_vm(vmid), vmid, new_node, online=True)
+    @reconnect_decorator
+    def get_node_status(self, node):
+        """Get node status"""
+        return self.conn.getNodeStatus(node)['data']
+    @reconnect_decorator
+    def get_vm_status(self, vmid):
+        """Get VM status"""
+        return self.conn.getVirtualStatus(self.get_node_of_vm(vmid), vmid)
 
 
 

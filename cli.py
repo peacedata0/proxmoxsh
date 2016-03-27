@@ -7,7 +7,7 @@ reload(sys)
 sys.setdefaultencoding(sys.stdout.encoding)
 
 class CLI(object):
-    commands = ["search", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate"]
+    commands = ["search", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes"]
     vm_commands = ["start", "stop", "shutdown", "reset", "suspend", "resume"]
     config = {}
     def __init__(self):
@@ -44,6 +44,8 @@ class CLI(object):
         if command[0] == u'search':
             if len(command) > 1:
                 self.search(command[1])
+        elif command[0] == u'nodes':
+            self.nodes()
         elif command[0] == u"migrate":
             if len(command) >= 3:
                 try:
@@ -60,8 +62,21 @@ class CLI(object):
                     print u"Invalid VM ID"
             else:
                 print u"Invalid arguments"
+        elif command[0] == u"info":
+            if len(command) > 1:
+                if command[1].isdigit():
+                    self.vminfo(int(command[1]))
+                else:
+                    self.nodeinfo(command[1])
+            else:
+                print u"Invalid arguments"
         else:
             print u"Invalid command"
+    def nodes(self):
+        """Print list of nodes"""
+        for n in sorted(self.pve.node_names()):
+            ns = self.pve.get_node_status(n)
+            print u"{}:\tfree {}G of {}G RAM".format(n, ns['memory']['free'] / (1024.0*1024*1024), ns['memory']['total'] / (1024.0*1024*1024))
     def search(self, request):
         """Find virtual machines in cluster"""
         result_dict = self.pve.find_vms(request)
@@ -74,6 +89,12 @@ class CLI(object):
         if u"-online" in params:
             parameters[u'online'] = True
         self.pve.migrate(vmid, new_node, **parameters)
+    def nodeinfo(self, node):
+        """Get information abount node"""
+        print self.pve.get_node_status(node)
+    def vminfo(self, vmid):
+        """Get information about VM"""
+        print self.pve.get_vm_status(vmid)
     def complete(self, text, state):
         """Complete current command"""
         if len(readline.get_line_buffer().strip()) == 0 or (len(readline.get_line_buffer().split()) <= 1 and readline.get_line_buffer()[-1] != " "):
