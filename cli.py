@@ -95,6 +95,8 @@ class CLI(object):
     def vminfo(self, vmid):
         """Get information about VM"""
         print self.pve.get_vm_status(vmid)
+        print "Description:"
+        print self.pve.get_desc(vmid)
     def complete(self, text, state):
         """Complete current command"""
         if len(readline.get_line_buffer().strip()) == 0 or (len(readline.get_line_buffer().split()) <= 1 and readline.get_line_buffer()[-1] != " "):
