@@ -7,7 +7,7 @@ reload(sys)
 sys.setdefaultencoding(sys.stdout.encoding)
 
 class CLI(object):
-    commands = ["search", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes"]
+    commands = ["search", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes", "setoption"]
     vm_commands = ["start", "stop", "shutdown", "reset", "suspend", "resume"]
     config = {}
     def __init__(self):
@@ -70,6 +70,9 @@ class CLI(object):
                     self.nodeinfo(command[1])
             else:
                 print u"Invalid arguments"
+        elif command[0] == u"setoption":
+            if len(command) > 3:
+                self.set_option(*command[1:4])
         else:
             print u"Invalid command"
     def nodes(self):
@@ -94,13 +97,19 @@ class CLI(object):
         print self.pve.get_node_status(node)
     def vminfo(self, vmid):
         """Get information about VM"""
-        print self.pve.get_vm_status(vmid)
-        print "Description:"
-        print self.pve.get_desc(vmid)
+        status, options = self.pve.get_vm_info(vmid)
+        for r in status:
+            print "{}\t\t{}".format(r, status[r])
+        print u"\nConfiguration:"
+        for r in options:
+            print "{}\t\t{}".format(r, options[r])
+#        print "Description:"
+#        print self.pve.get_desc(vmid)
+    def set_option(self, vmid, option, value):
+        """Set VM option"""
+        print self.pve.set_option(int(vmid), option, value)
     def complete(self, text, state):
         """Complete current command"""
         if len(readline.get_line_buffer().strip()) == 0 or (len(readline.get_line_buffer().split()) <= 1 and readline.get_line_buffer()[-1] != " "):
             results = [command + " " for command in self.commands if command.startswith(text) ] + [None]
-#        if readline.get_line_buffer().split()[0] in ("start", "stop"):
-#            results = ['test1', 'test2', None]
         return results[state]
