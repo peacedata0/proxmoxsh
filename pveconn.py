@@ -40,12 +40,20 @@ class Pveconn(object):
             vms_dict[vm['vmid']] = vm
         return vms_dict
     @reconnect_decorator
-    def find_vms(self, request):
-        """Find virtual machines with stated text in ID or name"""
+    def find_vms(self, request, search_in_desc = False):
+        """Find virtual machines with stated text in ID or name. Returns dict {node:(VM_status, Description)}"""
         result = {}
         for node in self.node_names():
             vms_of_node = self.node_vms(node)
-            results_of_node = [ vms_of_node[vm] for vm in vms_of_node if unicode(vm).find(request) != -1 or vms_of_node[vm]['name'].find(request) != -1 ]
+            results_of_node = []
+            for vm in vms_of_node:
+                desc = ""
+                if search_in_desc:
+                    config = self.conn.getVirtualConfig(node, vm)['data']
+                    if 'description' in config:
+                        desc = config['description']
+                if unicode(vm).find(request) != -1 or vms_of_node[vm]['name'].find(request) != -1 or desc.find(request) != -1:
+                    results_of_node.append ((vms_of_node[vm], desc))
             if results_of_node:
                 result[node] = results_of_node
         return result
@@ -86,6 +94,7 @@ class Pveconn(object):
     def set_option(self, vmid, option, value):
         """Set VM option"""
         return self.conn.setVirtualMachineOptions(self.get_node_of_vm(vmid), vmid, {option: value})
+
 
 
 
