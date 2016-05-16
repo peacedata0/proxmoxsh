@@ -9,6 +9,18 @@ The goal of the project is create more convinient than pvesh utility for managin
 GPLv2 or later
 
 ## Howto
+Create config file $HOME/.config/proxmoxsh/proxmoxsh.conf containing:
+
+{'credentials':
+ {'url':'NODE_URL',
+  'username':'USER@REALM',
+  'password':'PASSWORD'},
+}
+
+REALM may be "pam" or "pve".
+
+If file doesn't exist you will be asked for credentials.
+
 Currently supported commands:
 * search &lt;request&gt; — find VM by name or ID
 * search-d &lt;request&gt; — find VM by name, ID or description (slower than search)
