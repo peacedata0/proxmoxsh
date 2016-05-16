@@ -35,4 +35,4 @@ Currently supported commands:
  * -online — online migration of running machine
 * info &lt;node&gt; — Print information about node
 * info &lt;VM ID&gt; — Print information about VM
-* setoption &lt;VM ID&gt; &lt;option name&gt &lt;option value&gt;  — set VM configuration option
+* setoption &lt;VM ID&gt; &lt;option name&gt; &lt;option value&gt;  — set VM configuration option
