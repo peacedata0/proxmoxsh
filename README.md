@@ -11,6 +11,7 @@ GPLv2 or later
 ## Howto
 Currently supported commands:
 * search &lt;request&gt; — find VM by name or ID
+* search-d &lt;request&gt; — find VM by name, ID or description (slower than search)
 * start &lt;VM ID&gt; — start virtual machine
 * stop &lt;VM ID&gt; — stop (force turn off) virtual machine
 * shutdown &lt;VM ID&gt; — shutdown (gently turn off) virtual machine
