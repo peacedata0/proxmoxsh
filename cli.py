@@ -7,7 +7,7 @@ reload(sys)
 sys.setdefaultencoding(sys.stdout.encoding)
 
 class CLI(object):
-    commands = ["search", "search-d", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes", "setoption"]
+    commands = ["search", "search-d", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes", "setoption", "tasks"]
     vm_commands = ["start", "stop", "shutdown", "reset", "suspend", "resume"]
     config = {}
     def __init__(self):
@@ -20,9 +20,13 @@ class CLI(object):
             c['password'] = getpass(u"Enter password: ")
             self.config['credentials'] = c
         self.pve = Pveconn(**self.config['credentials'])
-        readline.parse_and_bind("tab: complete")
-        readline.set_completer(self.complete)
-        self.wait()
+        if '-c' in sys.argv:
+            command = sys.argv[sys.argv.index('-c')+1:]
+            self.parse_command(command)
+        else:
+            readline.parse_and_bind("tab: complete")
+            readline.set_completer(self.complete)
+            self.wait()
     def read_config(self):
         """Read config file. Exception is raised if error"""
         with open(os.path.expanduser('~/.config/proxmoxsh/proxmoxsh.conf')) as config:
@@ -76,6 +80,8 @@ class CLI(object):
         elif command[0] == u"setoption":
             if len(command) > 3:
                 self.set_option(*command[1:4])
+        elif command[0] == u"tasks":
+            self.tasks()
         else:
             print u"Invalid command"
     def nodes(self):
@@ -111,6 +117,14 @@ class CLI(object):
     def set_option(self, vmid, option, value):
         """Set VM option"""
         print self.pve.set_option(int(vmid), option, value)
+    def tasks(self):
+        """Print recent tasks"""
+        tasks_list = self.pve.cluster_tasks()
+        headers = ['starttime', 'endtime', 'node', 'status', 'type', 'upid']
+        print '\t'.join(headers)
+        for task in tasks_list:
+            task_out = [unicode(task[header]) for header in headers]
+            print '\t'.join(task_out)
     def complete(self, text, state):
         """Complete current command"""
         if len(readline.get_line_buffer().strip()) == 0 or (len(readline.get_line_buffer().split()) <= 1 and readline.get_line_buffer()[-1] != " "):

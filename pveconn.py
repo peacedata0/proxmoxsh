@@ -94,6 +94,10 @@ class Pveconn(object):
     def set_option(self, vmid, option, value):
         """Set VM option"""
         return self.conn.setVirtualMachineOptions(self.get_node_of_vm(vmid), vmid, {option: value})
+    @reconnect_decorator
+    def cluster_tasks(self):
+        """Get cluster tasks"""
+        return self.conn.getClusterTasks()['data']
 
 
 
