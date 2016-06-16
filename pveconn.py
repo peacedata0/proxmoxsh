@@ -82,7 +82,7 @@ class Pveconn(object):
         node = self.get_node_of_vm(vmid)
         status = self.conn.getVirtualStatus(node, vmid)['data']
         config = self.conn.getVirtualConfig(node, vmid)['data']
-        return status, config
+        return node, status, config
     def get_desc(self, vmid):
         """Get description of VM"""
         return self.get_config(vmid)['description']

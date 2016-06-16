@@ -106,7 +106,8 @@ class CLI(object):
         print self.pve.get_node_status(node)
     def vminfo(self, vmid):
         """Get information about VM"""
-        status, options = self.pve.get_vm_info(vmid)
+        node, status, options = self.pve.get_vm_info(vmid)
+	print "Node:", node
         for r in status:
             print "{}\t\t{}".format(r, status[r])
         print u"\nConfiguration:"
