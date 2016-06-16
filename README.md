@@ -36,3 +36,5 @@ Currently supported commands:
 * info &lt;node&gt; — Print information about node
 * info &lt;VM ID&gt; — Print information about VM
 * setoption &lt;VM ID&gt; &lt;option name&gt; &lt;option value&gt;  — set VM configuration option
+
+You can launch proxmoxsh without arguments and enter commands interactively or launch proxmoxsh with "-c command" arguments.
