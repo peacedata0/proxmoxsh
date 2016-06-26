@@ -5,7 +5,10 @@ from cli import CLI
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-if __name__ == "__main__":
+def main():
     cl = CLI()
+
+if __name__ == "__main__":
+    main()
 
 logging.shutdown()
