@@ -2,7 +2,7 @@
 from setuptools import setup
 
 setup(name='proxmoxsh',
-    version='0.1',
+    version='0.2',
     description='Command line utility for managing Proxmox VE',
     url='https://github.com/timur-enikeev/proxmoxsh',
     author='Timur Enikeev',

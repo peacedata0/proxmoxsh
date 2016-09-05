@@ -22,19 +22,20 @@ REALM may be "pam" or "pve".
 If file doesn't exist you will be asked for credentials.
 
 Currently supported commands:
-* search &lt;request&gt; — find VM by name or ID
-* search-d &lt;request&gt; — find VM by name, ID or description (slower than search)
-* start &lt;VM ID&gt; — start virtual machine
-* stop &lt;VM ID&gt; — stop (force turn off) virtual machine
-* shutdown &lt;VM ID&gt; — shutdown (gently turn off) virtual machine
-* reset &lt;VM ID&gt; — forse reset virtual machine
-* suspend &lt;VM ID&gt; — suspend virtual machine
-* resume &lt;VM ID&gt; — resume virtual machine from suspend
-* migrate &lt;VM ID&gt; &lt;Destination node&gt; &lt;parameters&gt; — migrate VM to another node
+* search *request* — find VM by name or ID
+* search-d *request* — find VM by name, ID or description (slower than search)
+* search-vlan *vlan_tag* — find vm that has interface with entered vlan tag 
+* start *VM ID* — start virtual machine
+* stop *VM ID* — stop (force turn off) virtual machine
+* shutdown *VM ID* — shutdown (gently turn off) virtual machine
+* reset *VM ID* — forse reset virtual machine
+* suspend *VM ID* — suspend virtual machine
+* resume *VM ID* — resume virtual machine from suspend
+* migrate *VM ID* *Destination node* *parameters* — migrate VM to another node
  *  parameters:
  * -online — online migration of running machine
-* info &lt;node&gt; — Print information about node
-* info &lt;VM ID&gt; — Print information about VM
-* setoption &lt;VM ID&gt; &lt;option name&gt; &lt;option value&gt;  — set VM configuration option
+* info *node* — Print information about node
+* info *VM ID* — Print information about VM
+* setoption *VM ID* *option name* *option value*  — set VM configuration option
 
 You can launch proxmoxsh without arguments and enter commands interactively or launch proxmoxsh with "-c command" arguments.
