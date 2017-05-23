@@ -29,7 +29,7 @@ class Pveconn(object):
     def node_names(self):
         """Get names of all online nodes of the cluster"""
         cs = self.conn.getClusterStatus()['data']
-        nodes = [ n['name'] for n in cs if n['type'] == 'node' and (('state' in n) and ['state'] or (('online' in n) and 'online')) ]
+        nodes = [ n['name'] for n in cs if n['type'] == 'node' and ((('state' in n) and n['state']) or (('online' in n) and n['online'])) ]
         return nodes
     @reconnect_decorator
     def node_vms(self, node):
