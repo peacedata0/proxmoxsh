@@ -57,6 +57,7 @@ class Pveconn(object):
             if results_of_node:
                 result[node] = results_of_node
         return result
+    @reconnect_decorator
     def find_vms_of_vlan(self, request):
         """Find virtual machines which have interfaces in stated vlan Returns dict {node:(VM_status, Description)}"""
         result = {}
@@ -74,6 +75,26 @@ class Pveconn(object):
             if results_of_node:
                 result[node] = results_of_node
         return result
+    @reconnect_decorator
+    def find_vms_with_mac(self, request):
+        """Find virtual machines which have interfaces with stated MAC address. Returns dict {node:(VM_status, Description)}"""
+        result = {}
+        for node in self.node_names():
+            vms_of_node = self.node_vms(node)
+            results_of_node = []
+            for vm in vms_of_node:
+                config = self.conn.getVirtualConfig(node, vm)['data']
+                for param in config:
+                    if param.startswith(u'net'):
+                        int_params = config[param].split(',')
+                        mac = int_params[0].strip().split('=')[1]
+                        if request.lower() in mac.lower():
+                            results_of_node.append ((vms_of_node[vm], ""))
+                            break
+            if results_of_node:
+                result[node] = results_of_node
+        return result
+
     @reconnect_decorator
     def get_node_of_vm(self, vmid):
         """Find node where VM is running"""

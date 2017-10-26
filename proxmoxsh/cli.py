@@ -7,7 +7,7 @@ reload(sys)
 sys.setdefaultencoding(sys.stdout.encoding)
 
 class CLI(object):
-    commands = ["search", "search-d", "search-vlan", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes", "setoption", "tasks"]
+    commands = ["search", "search-d", "search-vlan", "search-mac", "start", "stop", "shutdown", "reset", "suspend", "resume", "migrate", "info", "nodes", "setoption", "tasks"]
     vm_commands = ["start", "stop", "shutdown", "reset", "suspend", "resume"]
     config = {}
     def __init__(self):
@@ -54,6 +54,9 @@ class CLI(object):
         elif command[0] == u'search-vlan':
             if len(command) > 1:
                 self.search(command[1], search_vlan=True)
+        elif command[0] == u'search-mac':
+            if len(command) > 1:
+                self.search(command[1], search_mac=True)
         elif command[0] == u'nodes':
             self.nodes()
         elif command[0] == u"migrate":
@@ -92,10 +95,12 @@ class CLI(object):
         for n in sorted(self.pve.node_names()):
             ns = self.pve.get_node_status(n)
             print u"{}:\tfree {}G of {}G RAM".format(n, ns['memory']['free'] / (1024.0*1024*1024), ns['memory']['total'] / (1024.0*1024*1024))
-    def search(self, request, search_in_desc=False, search_vlan=False):
+    def search(self, request, search_in_desc=False, search_vlan=False, search_mac=False):
         """Find virtual machines in cluster"""
         if search_vlan:
             result_dict = self.pve.find_vms_of_vlan(request)
+        elif search_mac:
+            result_dict = self.pve.find_vms_with_mac(request)
         else:
             result_dict = self.pve.find_vms(request, search_in_desc)
         for srv in sorted(result_dict.keys()):
