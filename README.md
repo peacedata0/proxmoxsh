@@ -24,7 +24,8 @@ If file doesn't exist you will be asked for credentials.
 Currently supported commands:
 * search *request* — find VM by name or ID
 * search-d *request* — find VM by name, ID or description (slower than search)
-* search-vlan *vlan_tag* — find vm that has interface with entered vlan tag 
+* search-vlan *vlan_tag* — find vm that has interface with entered vlan tag
+* search-mac *mac address (hex) or it's part, octets are separated by :* — find vm that has interface with entered mac address or it's part
 * start *VM ID* — start virtual machine
 * stop *VM ID* — stop (force turn off) virtual machine
 * shutdown *VM ID* — shutdown (gently turn off) virtual machine

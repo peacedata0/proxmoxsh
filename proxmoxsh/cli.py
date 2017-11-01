@@ -106,7 +106,12 @@ class CLI(object):
         for srv in sorted(result_dict.keys()):
             print srv, ":"
             for vm, desc in sorted(result_dict[srv], key=lambda vm:vm[0]['vmid']): #order by ID
-                print "{}\t{}\t{}\t{}".format(vm['vmid'], vm['name'], vm['status'], desc.strip())
+                if search_mac:
+                    print "\t{}\t{}\t{}".format(vm['vmid'], vm['name'], vm['status'])
+                    for interface in desc:
+                        print "\t\t{}:\t{}".format(interface, desc[interface])
+                else:
+                    print "\t{}\t{}\t{}\t{}".format(vm['vmid'], vm['name'], vm['status'], desc.strip())
     def migrate(self, vmid, new_node, params):
         parameters = {}
         if u"-online" in params:

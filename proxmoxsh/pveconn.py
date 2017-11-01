@@ -84,13 +84,17 @@ class Pveconn(object):
             results_of_node = []
             for vm in vms_of_node:
                 config = self.conn.getVirtualConfig(node, vm)['data']
+                found_ints = {}
                 for param in config:
                     if param.startswith(u'net'):
                         int_params = config[param].split(',')
                         mac = int_params[0].strip().split('=')[1]
                         if request.lower() in mac.lower():
-                            results_of_node.append ((vms_of_node[vm], ""))
-                            break
+                            found_ints[param] = mac
+#                            break
+                if found_ints:
+                        results_of_node.append ((vms_of_node[vm], found_ints))
+
             if results_of_node:
                 result[node] = results_of_node
         return result
